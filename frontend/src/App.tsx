@@ -9,11 +9,15 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import Cart from "./pages/Cart"
+import Wishlist from "./pages/Wishlist"
+import CheckoutPage from "./pages/CheckoutPage"
 import useAuthStore from "./store/useAuthStore"
 import ProtectedRoute from "./components/ProtectedRoute"
+import ProductsPage from "./pages/ProductsPage";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
 
 const App = () => {
-  const { initializeAuth, isAuthenticated, loading: authLoading } = useAuthStore();
+  const { initializeAuth, loading: authLoading } = useAuthStore();
   
   useEffect(() => {
     initializeAuth();
@@ -29,19 +33,23 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-[#EFF5EC]">
         <Toaster position="top-center" />
         <Navbar />
-        <main className="flex-grow">
+        <main className="flex-grow mt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/payment-confirmed" element={<PaymentConformed />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:id" element={<ProductDetailsPage />} />
             
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
               {/* Add more protected routes here */}
             </Route>
             

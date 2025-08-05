@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <>
 
-    <footer className="w-full bg-green-900 py-12 px-6 sm:px-16 mt-20">
+    <footer className="w-full bg-[#005C03] py-12 px-6 sm:px-16 mt-20">
       <div className="max-w-[1440px] mx-auto flex flex-col gap-10">
 
         {/* Divider */}

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Heart, Menu, X } from 'lucide-react';
+import useWishlistStore from '../store/useWishlistStore';
 import { useState, useEffect } from 'react';
 import useAuthStore from '../store/useAuthStore';
 import useCartStore from '../store/useCartStore';
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isAuthenticated, logout } = useAuthStore();
   const { items: cartItems } = useCartStore();
+  const { items: wishlistItems } = useWishlistStore();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -69,13 +71,7 @@ const Navbar = () => {
           {/* Right side icons */}
           <div className="flex items-center space-x-4">
             <div className="hidden md:flex items-center space-x-4">
-              <Link 
-                to="/wishlist" 
-                className="p-2 text-green-600 hover:text-green-600 relative"
-                aria-label="Wishlist"
-              >
-                <Heart className="w-5 h-5" />
-              </Link>
+
               
               <Link 
                 to="/cart" 
@@ -92,6 +88,18 @@ const Navbar = () => {
 
               {isAuthenticated ? (
                 <>
+                              <Link 
+                to="/wishlist" 
+                className="p-2 text-green-600 hover:text-green-600 relative"
+                aria-label="Wishlist"
+              >
+                <Heart className="w-5 h-5" />
+                {wishlistItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {wishlistItems.length > 9 ? '9+' : wishlistItems.length}
+                  </span>
+                )}
+              </Link>
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -119,13 +127,12 @@ const Navbar = () => {
                   >
                     Login
                   </Button>
-                  <Button 
-                    size="sm" 
+                  <button 
                     onClick={() => navigate('/register')}
-                    className="bg-green-600 hover:bg-green-700"
+                    className="bg-green-600 text-white px-3 py-1 rounded-sm hover:bg-green-700"
                   >
                     Sign Up
-                  </Button>
+                  </button>
                 </>
               )}
             </div>

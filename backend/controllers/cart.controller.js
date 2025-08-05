@@ -142,15 +142,15 @@ export const updateCart = async (req, res, next) => {
 
 export const deleteCart = async (req, res, next) => {
     try {
-        const {userId} = req.body
-        const cart = await Cart.findOneAndDelete({user: userId})
+        const userId = req.user._id; // Get user ID from authenticated user
+        const cart = await Cart.findOneAndDelete({ user: userId })
 
         if(!cart) {
             const error = new Error("Cart not found")
             error.statusCode = 404
             throw error
         }
-        res.status(200).json({success: true, message: "Cart deleted successfully", data: cart})
+        res.status(200).json({success: true, message: "Cart cleared successfully", data: cart})
     } catch (error) {
         next(error)
     }

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, X, Plus, Minus, ArrowLeft } from 'lucide-react';
 import useCartStore from '../store/useCartStore';
-import { Button } from '../components/Button';
 
 export default function Cart() {
+  const navigate = useNavigate();
   const { 
     items, 
     loading, 
@@ -61,9 +61,9 @@ export default function Cart() {
           <ShoppingBag className="w-16 h-16 mx-auto text-gray-400 mb-4" />
           <h2 className="text-2xl font-bold mb-2">Your cart is empty</h2>
           <p className="text-gray-600 mb-6">Looks like you haven't added anything to your cart yet.</p>
-          <Button asChild>
+          <button className="px-4 py-2 rounded-md hover:bg-green-50 hover:text-green-700">
             <Link to="/products">Continue Shopping</Link>
-          </Button>
+          </button>
         </div>
       </div>
     );
@@ -99,7 +99,9 @@ export default function Cart() {
                     </button>
                   </div>
                   
-                  <p className="text-gray-600 text-sm mb-2">${item.product.price.toFixed(2)}</p>
+                  <p className="text-gray-600 text-sm mb-2">
+                    ${item?.product?.price ? item.product.price.toFixed(2) : '0.00'}
+                  </p>
                   
                   <div className="flex items-center mt-2">
                     <button 
@@ -131,17 +133,16 @@ export default function Cart() {
           </div>
           
           <div className="flex justify-between items-center mt-4">
-            <Button variant="outline" className="flex items-center gap-2">
+            <button className="flex items-center gap-2 px-4 py-2 rounded-md hover:bg-green-50 hover:text-green-700">
               <ArrowLeft size={16} />
               Continue Shopping
-            </Button>
-            <Button 
-              variant="ghost" 
+            </button>
+            <button 
               onClick={clearCart}
-              className="text-red-500 hover:text-red-700"
+              className="text-red-500 px-4 py-2 rounded-md hover:bg-red-50 hover:text-red-700"
             >
               Clear Cart
-            </Button>
+            </button>
           </div>
         </div>
         
@@ -165,9 +166,12 @@ export default function Cart() {
               </div>
             </div>
             
-            <Button className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white">
-              Proceed to Checkout
-            </Button>
+            <Link 
+              to="/checkout"
+              className="block w-full px-4 py-2 text-center rounded-md mt-6 bg-green-600 hover:bg-green-700 text-white"
+            >
+              Proceed to Checkout (Cash on Delivery)
+            </Link>
             
             <div className="mt-4 text-center text-sm text-gray-500">
               <p>or</p>
