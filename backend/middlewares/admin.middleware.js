@@ -14,7 +14,7 @@ const admin = (req, res, next) => {
         }
 
         // Check if user has admin role
-        if (req.user.role !== 'admin') {
+        if (req.user.isAdmin !== true) {
             return res.status(403).json({
                 success: false,
                 message: "Forbidden",

@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import cartRouter from './routes/cart.routes.js'
 import wishlistRouter from './routes/wishlist.routes.js'
 import cors from 'cors'
+import orderRouter from './routes/order.routes.js'
 const app = express()
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -23,6 +24,7 @@ app.use('/api/v1/users', userRouter)
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/cart', cartRouter)
 app.use('/api/v1/wishlist', wishlistRouter)
+app.use('/api/v1/orders', orderRouter)
 
 app.use(errorMiddleware)
 

@@ -1,11 +1,10 @@
 import Order from '../models/order.model.js';
 import Product from '../models/product.model.js';
-import asyncHandler from 'express-async-handler';
 
-// @desc    Create new order with COD
+// @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
-const createOrder = asyncHandler(async (req, res) => {
+const createOrder = async (req, res) => {
     const {
         orderItems,
         shippingAddress,
@@ -63,12 +62,12 @@ const createOrder = asyncHandler(async (req, res) => {
             shippingAddress,
             paymentMethod,
             itemsPrice: calculatedItemsPrice,
-            taxPrice,
-            shippingPrice,
-            totalPrice: calculatedItemsPrice + taxPrice + shippingPrice,
-            status: 'pending',
+            taxPrice: taxPrice || 0,
+            shippingPrice: shippingPrice || 0,
+            totalPrice: calculatedItemsPrice + (taxPrice || 0) + (shippingPrice || 0),
             isPaid: paymentMethod === 'CashOnDelivery' ? false : true,
-            paidAt: paymentMethod === 'CashOnDelivery' ? null : new Date()
+            paidAt: paymentMethod === 'CashOnDelivery' ? null : new Date(),
+            status: 'pending'
         });
 
         const createdOrder = await order.save();
@@ -81,17 +80,30 @@ const createOrder = asyncHandler(async (req, res) => {
             );
         }
 
-        res.status(201).json(createdOrder);
+        res.status(201).json({
+            _id: createdOrder._id,
+            user: createdOrder.user,
+            orderItems: createdOrder.orderItems,
+            shippingAddress: createdOrder.shippingAddress,
+            paymentMethod: createdOrder.paymentMethod,
+            itemsPrice: createdOrder.itemsPrice,
+            taxPrice: createdOrder.taxPrice,
+            shippingPrice: createdOrder.shippingPrice,
+            totalPrice: createdOrder.totalPrice,
+            isPaid: createdOrder.isPaid,
+            status: createdOrder.status,
+            createdAt: createdOrder.createdAt
+        });
     } catch (error) {
         res.status(500);
         throw new Error(error.message || 'Error creating order');
     }
-});
+}
 
 // @desc    Get order by ID
 // @route   GET /api/orders/:id
 // @access  Private
-const getOrderById = asyncHandler(async (req, res) => {
+const getOrderById = async (req, res) => {
     const order = await Order.findById(req.params.id).populate('user', 'name email');
     
     if (order && (order.user._id.toString() === req.user._id.toString() || req.user.isAdmin)) {
@@ -100,12 +112,68 @@ const getOrderById = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error('Order not found');
     }
-});
+}
+// @desc    Update order details (admin only)
+// @route   PUT /api/orders/:id/edit
+// @access  Private/Admin
+const updateOrder = async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id);
+        
+        if (!order) {
+            res.status(404);
+            throw new Error('Order not found');
+        }
+
+        const {
+            status,
+            isPaid,
+            isDelivered,
+            shippingAddress
+        } = req.body;
+
+        // Update order status and dates
+        if (status) order.status = status;
+        
+        // Update payment status and date if marked as paid
+        if (isPaid !== undefined) {
+            order.isPaid = isPaid;
+            if (isPaid && !order.paidAt) {
+                order.paidAt = Date.now();
+            }
+        }
+
+        // Update delivery status and date if marked as delivered
+        if (isDelivered !== undefined) {
+            order.isDelivered = isDelivered;
+            if (isDelivered && !order.deliveredAt) {
+                order.deliveredAt = Date.now();
+            }
+        }
+
+        // Update shipping address if provided
+        if (shippingAddress) {
+            order.shippingAddress = {
+                ...order.shippingAddress,
+                ...shippingAddress
+            };
+        }
+
+        const updatedOrder = await order.save();
+        res.json(updatedOrder);
+    } catch (error) {
+        console.error('Error updating order:', error);
+        res.status(500).json({ 
+            message: error.message || 'Error updating order',
+            stack: process.env.NODE_ENV === 'production' ? '🥞' : error.stack 
+        });
+    }
+};
 
 // @desc    Update order to paid
 // @route   PUT /api/orders/:id/pay
 // @access  Private/Admin
-const updateOrderToPaid = asyncHandler(async (req, res) => {
+const updateOrderToPaid = async (req, res) => {
     const order = await Order.findById(req.params.id);
     
     if (order) {
@@ -119,12 +187,12 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error('Order not found');
     }
-});
+}
 
 // @desc    Update order to delivered
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler(async (req, res) => {
+const updateOrderToDelivered = async (req, res) => {
     const order = await Order.findById(req.params.id);
     
     if (order) {
@@ -138,23 +206,23 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error('Order not found');
     }
-});
+}
 
 // @desc    Get logged in user orders
 // @route   GET /api/orders/myorders
 // @access  Private
-const getMyOrders = asyncHandler(async (req, res) => {
+const getMyOrders = async (req, res) => {
     const orders = await Order.find({ user: req.user._id });
     res.json(orders);
-});
+}
 
 // @desc    Get all orders
 // @route   GET /api/orders
 // @access  Private/Admin
-const getOrders = asyncHandler(async (req, res) => {
+const getOrders = async (req, res) => {
     const orders = await Order.find({}).populate('user', 'id name');
     res.json(orders);
-});
+}
 
 export {
     createOrder,
@@ -162,5 +230,6 @@ export {
     updateOrderToPaid,
     updateOrderToDelivered,
     getMyOrders,
-    getOrders
+    getOrders,
+    updateOrder
 };
