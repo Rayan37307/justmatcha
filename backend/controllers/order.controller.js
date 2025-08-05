@@ -209,12 +209,33 @@ const updateOrderToDelivered = async (req, res) => {
 }
 
 // @desc    Get logged in user orders
-// @route   GET /api/orders/myorders
+// @route   GET /api/orders/my-orders
 // @access  Private
 const getMyOrders = async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
-    res.json(orders);
-}
+    try {
+        const orders = await Order.find({ user: req.user._id })
+            .populate('user', 'name email')
+            .populate({
+                path: 'orderItems.product',
+                select: 'name image price',
+                model: 'Product'
+            })
+            .sort({ createdAt: -1 });
+
+        res.json({
+            success: true,
+            count: orders.length,
+            data: orders
+        });
+    } catch (error) {
+        console.error('Error fetching user orders:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error while fetching orders',
+            error: error.message
+        });
+    }
+};
 
 // @desc    Get all orders
 // @route   GET /api/orders

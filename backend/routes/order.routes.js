@@ -18,7 +18,7 @@ const orderRouter = Router();
 // Protected routes (user must be authenticated)
 orderRouter.post('/', authorize, createOrder)  // Create a new order (including COD)
 orderRouter.get('/', authorize, admin, getOrders);  // Get all orders (admin only)
-orderRouter.get('/myorders', authorize, getMyOrders);  // Get logged in user's orders
+orderRouter.get('/my-orders', authorize, getMyOrders);  // Get logged in user's orders
 orderRouter.get('/:id', authorize, getOrderById);  // Get order by ID
 
 // Admin routes

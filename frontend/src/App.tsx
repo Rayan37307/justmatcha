@@ -19,6 +19,7 @@ import AdminRoute from "./components/AdminRoute";
 import AdminDashboard from "./pages/AdminDashboard";
 import OrderDetailsRoute from "./pages/OrderDetailsRoute";
 import EditOrderPage from "./pages/EditOrderPage";
+import AccountPage from "./pages/AccountPage";
 
 const App = () => {
   const { initializeAuth, loading: authLoading } = useAuthStore();
@@ -77,6 +78,7 @@ const App = () => {
             
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
+              <Route path="/account" element={<AccountPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/checkout" element={<CheckoutPage />} />

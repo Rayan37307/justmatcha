@@ -38,6 +38,7 @@ interface AuthState {
   logout: () => void;
   fetchUser: () => Promise<User>;
   initializeAuth: () => Promise<void>;
+  updateProfile: (data: { name?: string; email?: string; currentPassword?: string; newPassword?: string }) => Promise<User>;
 }
 
 // Set the auth token for axios if it exists
@@ -102,8 +103,7 @@ const useAuthStore = create<AuthState>((set) => ({
     if (token) {
       try {
         set({ loading: true });
-        // The backend returns { success, message, data }
-        const response = await api.get<{ data: User }>('/auth/user');
+        const response = await api.get<{ data: User }>('/auth/me');
         
         if (response.data && response.data.data) {
           set({ 
@@ -116,14 +116,18 @@ const useAuthStore = create<AuthState>((set) => ({
         } else {
           throw new Error('Invalid user data received');
         }
-      } catch (err) {
-        const error = err as any;
+      } catch (error: any) {
         console.error('Auth initialization error:', error);
         // Only clear auth state if it's an actual auth error
         if (error?.response?.status === 401 || error?.response?.status === 403) {
           localStorage.removeItem('token');
-          setAuthToken(null);
-          set({ user: null, token: null, isAuthenticated: false, loading: false });
+          set({
+            user: null,
+            token: null,
+            isAuthenticated: false,
+            isAdmin: false,
+            loading: false
+          });
         } else {
           set({ loading: false });
         }
@@ -132,6 +136,26 @@ const useAuthStore = create<AuthState>((set) => ({
       set({ loading: false });
     }
   },
+
+  updateProfile: async (data: { name?: string; email?: string; currentPassword?: string; newPassword?: string }) => {
+    try {
+      set({ loading: true });
+      const response = await api.put<{ data: User }>('/auth/update-profile', data);
+      
+      if (response.data && response.data.data) {
+        set(state => ({
+          user: response.data.data,
+          isAdmin: response.data.data.role === 'admin',
+          loading: false
+        }));
+        return response.data.data;
+      }
+      throw new Error('Invalid response format');
+    } catch (error: any) {
+      set({ loading: false });
+      throw error;
+    }
+  }
 }));
 
 export default useAuthStore;

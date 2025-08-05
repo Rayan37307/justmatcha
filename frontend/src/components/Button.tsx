@@ -22,17 +22,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     
     // Base classes
     const baseClasses = 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors';
-    const focusClasses = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500';
+    const focusClasses = 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500';
     const disabledClasses = 'disabled:opacity-50 disabled:pointer-events-none';
     
     // Variant classes
     const variants = {
-      default: 'bg-indigo-600 text-white hover:bg-indigo-700',
+      default: 'bg-green-600 text-white hover:bg-green-700',
       destructive: 'bg-red-600 text-white hover:bg-red-700',
       outline: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
       secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
       ghost: 'hover:bg-gray-100',
-      link: 'text-indigo-600 hover:underline',
+      link: 'text- green-600 hover:underline',
     };
     
     // Size classes
