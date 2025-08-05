@@ -15,6 +15,10 @@ import useAuthStore from "./store/useAuthStore"
 import ProtectedRoute from "./components/ProtectedRoute"
 import ProductsPage from "./pages/ProductsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import AdminRoute from "./components/AdminRoute";
+import AdminDashboard from "./pages/AdminDashboard";
+import OrderDetailsRoute from "./pages/OrderDetailsRoute";
+import EditOrderPage from "./pages/EditOrderPage";
 
 const App = () => {
   const { initializeAuth, loading: authLoading } = useAuthStore();
@@ -44,6 +48,32 @@ const App = () => {
             <Route path="/payment-confirmed" element={<PaymentConformed />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminRoute>
+  <>
+    <AdminDashboard />
+  </>
+</AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders/:id"
+              element={
+                <AdminRoute>
+                  <OrderDetailsRoute />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/orders/:id/edit"
+              element={
+                <AdminRoute>
+                  <EditOrderPage />
+                </AdminRoute>
+              }
+            />
             
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>

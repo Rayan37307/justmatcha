@@ -6,12 +6,13 @@ import { toast } from 'react-hot-toast';
 import api from '../utils/axios';
 
 interface OrderFormData {
-  name: string;
+  fullName: string;
   email: string;
   phone: string;
   address: string;
   city: string;
   postalCode: string;
+  country: string;
 }
 
 const CheckoutPage = () => {
@@ -19,7 +20,13 @@ const CheckoutPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState<OrderFormData>({
-    name: '', email: '', phone: '', address: '', city: '', postalCode: ''
+    fullName: '', 
+    email: '', 
+    phone: '', 
+    address: '', 
+    city: '', 
+    postalCode: '',
+    country: 'Bangladesh' // Default value for country
   });
   const navigate = useNavigate();
 
@@ -37,14 +44,27 @@ const CheckoutPage = () => {
 
     try {
       const orderData = {
-        ...formData,
-        paymentMethod: 'cod',
-        items: cartItems.map(item => ({
+        orderItems: cartItems.map(item => ({
           product: item.product._id,
+          name: item.product.name,
           quantity: item.quantity,
-          price: item.product.price
+          price: item.product.price,
+          image: item.product.image
         })),
-        totalAmount: calculateTotal(),
+        shippingAddress: {
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          postalCode: formData.postalCode,
+          country: formData.country
+        },
+        paymentMethod: 'CashOnDelivery',
+        itemsPrice: calculateTotal(),
+        taxPrice: 0, // Calculate tax if needed
+        shippingPrice: 0, // Add shipping cost if applicable
+        totalPrice: calculateTotal()
       };
 
       await api.post('/orders', orderData);
@@ -95,8 +115,8 @@ const CheckoutPage = () => {
           <h2 className="text-lg font-medium mb-4">Delivery Information</h2>
           
           <div className="space-y-4">
-            <input type="text" name="name" placeholder="Full Name *" required
-              value={formData.name} onChange={handleInputChange} className="input-field" />
+            <input type="text" name="fullName" placeholder="Full Name *" required
+              value={formData.fullName} onChange={handleInputChange} className="input-field" />
             
             <input type="email" name="email" placeholder="Email *" required
               value={formData.email} onChange={handleInputChange} className="input-field" />
@@ -114,6 +134,8 @@ const CheckoutPage = () => {
               <input type="text" name="postalCode" placeholder="Postal Code *" required
                 value={formData.postalCode} onChange={handleInputChange} className="input-field" />
             </div>
+            
+            <input type="hidden" name="country" value="Bangladesh" />
           </div>
 
           <div className="mt-8 pt-6 border-t">

@@ -6,6 +6,7 @@ export interface User {
   name: string;
   email: string;
   role: string;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -31,6 +32,7 @@ interface AuthState {
   token: string | null;
   loading: boolean;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   signIn: (email: string, password: string) => Promise<User>;
   signUp: (name: string, email: string, password: string) => Promise<User>;
   logout: () => void;
@@ -54,7 +56,7 @@ const useAuthStore = create<AuthState>((set) => ({
   token: localStorage.getItem('token') || null,
   loading: true,
   isAuthenticated: !!localStorage.getItem('token'),
-
+  isAdmin: !!localStorage.getItem('token') && localStorage.getItem('role') === 'admin',
   signIn: async (email: string, password: string) => {
     const res = await api.post<AuthDataResponse>("/auth/sign-in", { email, password });
     const { data } = res.data;
@@ -108,6 +110,7 @@ const useAuthStore = create<AuthState>((set) => ({
             user: response.data.data, 
             token, 
             isAuthenticated: true,
+            isAdmin: response.data.data.role === 'admin',
             loading: false 
           });
         } else {
