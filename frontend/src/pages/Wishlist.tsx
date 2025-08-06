@@ -38,7 +38,7 @@ const Wishlist = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-900"></div>
       </div>
     );
   }
@@ -50,7 +50,7 @@ const Wishlist = () => {
           <p className="text-red-600 mb-4">{error}</p>
           <button
             onClick={fetchWishlist}
-            className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+            className="px-4 py-2 bg-green-900 text-white rounded hover:bg-green-900"
           >
             Try Again
           </button>
@@ -69,7 +69,7 @@ const Wishlist = () => {
           <div className="mt-6">
             <Link
               to="/products"
-              className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              className="inline-flex items-center px-4 py-2 bg-green-900 text-white rounded hover:bg-green-900"
             >
               Browse Products
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -101,7 +101,7 @@ const Wishlist = () => {
               </div>
               <div className="p-4">
                 <h3 className="text-sm font-medium text-gray-900 mb-1">
-                  <Link to={`/products/${item.product?._id || '#'}`} className="hover:text-green-600">
+                  <Link to={`/products/${item.product?._id || '#'}`} className="hover:text-green-900">
                     {item.product?.name || 'Product Name'}
                   </Link>
                 </h3>
@@ -125,7 +125,7 @@ const Wishlist = () => {
                         handleAddToCart(item.product._id);
                       }
                     }}
-                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-white bg-green-600 hover:bg-green-700"
+                    className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded text-white bg-green-900 hover:bg-green-900"
                     disabled={!item.product?._id}
                   >
                     <ShoppingCart className="h-4 w-4 mr-1" />

@@ -4,7 +4,7 @@ const Contact = () => {
     <section className="min-h-screen  px-6 py-16 text-green-900">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-bold text-green-800 mb-6">
-          Get in <span className="text-green-600">Touch</span>
+          Get in <span className="text-green-900">Touch</span>
         </h1>
         <p className="text-lg mb-10 leading-relaxed">
           Have a question, collab idea, or just wanna say hey? We're all ears 🍵  
@@ -16,22 +16,22 @@ const Contact = () => {
             <input
               type="text"
               placeholder="Your Name"
-              className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-900"
             />
             <input
               type="email"
               placeholder="Your Email"
-              className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-900"
             />
           </div>
           <textarea
             placeholder="Your Message"
             rows={5}
-            className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+            className="border border-green-200 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-green-900"
           ></textarea>
           <button
             type="submit"
-            className="bg-green-600 hover:bg-green-700 transition text-white font-medium py-3 rounded-md"
+            className="bg-green-900 hover:bg-green-900 transition text-white font-medium py-3 rounded-md"
           >
             Send Message
           </button>

@@ -46,7 +46,7 @@ const AdminDashboard = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="animate-spin h-8 w-8 text-green-600" />
+        <Loader2 className="animate-spin h-8 w-8 text-green-900" />
       </div>
     );
   }
@@ -64,7 +64,7 @@ const AdminDashboard = () => {
           <input
             type="text"
             placeholder="Search orders..."
-            className="pl-10 w-full border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="pl-10 w-full border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-900"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
             <Filter className="h-5 w-5 text-gray-400" />
           </div>
           <select
-            className="pl-10 border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="pl-10 border rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-green-900"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
                       {!order.isPaid && (
                         <button
                           onClick={() => updateOrderStatus(order._id, 'paid')}
-                          className="text-green-600 hover:text-green-900"
+                          className="text-green-900 hover:text-green-900"
                         >
                           Mark as Paid
                         </button>

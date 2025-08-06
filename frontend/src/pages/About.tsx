@@ -4,7 +4,7 @@ const About = () => {
     <section className="min-h-screen text-green-900 px-6 py-16">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-4xl sm:text-5xl font-bold text-green-800 mb-6">
-          About <span className="text-green-600">JustMatcha</span>
+          About <span className="text-green-900">JustMatcha</span>
         </h1>
 
         <p className="text-lg leading-relaxed mb-10">

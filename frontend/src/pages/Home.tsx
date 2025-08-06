@@ -5,7 +5,7 @@ import Why from '../components/Why';
 import Sections from '../components/Sections';
 function Home() {
   return (
-    <div className='px-10'>
+    <div className=''>
       <Hero />
       <Goodbye />
       <BestSellers />

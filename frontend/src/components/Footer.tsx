@@ -47,7 +47,7 @@ const Footer = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-20">
 
             <div>
-              <h4 className="text-green-400 mb-4">Discovery</h4>
+              <h4 className=" mb-4">Discovery</h4>
               <ul className="space-y-2">
                 <li className="hover:underline">New season</li>
                 <li className="hover:underline">Most searched</li>
@@ -56,7 +56,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-green-400 mb-4">About</h4>
+              <h4 className=" mb-4">About</h4>
               <ul className="space-y-2">
                 <li className="hover:underline">Help</li>
                 <li className="hover:underline">Shipping</li>
@@ -65,7 +65,7 @@ const Footer = () => {
             </div>
 
             <div>
-              <h4 className="text-green-400 mb-4">Info</h4>
+              <h4 className=" mb-4">Info</h4>
               <ul className="space-y-2">
                 <li className="hover:underline">Contact us</li>
                 <li className="hover:underline">Privacy Policies</li>

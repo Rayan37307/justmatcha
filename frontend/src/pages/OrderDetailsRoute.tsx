@@ -14,7 +14,7 @@ const OrderDetailsRoute = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen text-green-600">
+      <div className="flex items-center justify-center min-h-screen text-green-900">
         Loading order details...
       </div>
     );
@@ -50,7 +50,7 @@ const OrderDetailsRoute = () => {
           </p>
           <p><span className="font-medium">Phone:</span> {order.shippingAddress.phone}</p>
           <p><span className="font-medium">Email:</span> {order.shippingAddress.email}</p>
-          <p className={`mt-2 text-sm font-medium ${order.isDelivered ? "text-green-600" : "text-red-600"}`}>
+          <p className={`mt-2 text-sm font-medium ${order.isDelivered ? "text-green-900" : "text-red-600"}`}>
             {order.isDelivered 
               ? `Delivered on ${order.deliveredAt ? new Date(order.deliveredAt).toLocaleDateString() : 'N/A'}` 
               : "Not Delivered"}
@@ -79,7 +79,7 @@ const OrderDetailsRoute = () => {
                 <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
               </div>
             </div>
-            <p className="font-semibold text-green-700">${(item.price * item.quantity).toFixed(2)}</p>
+            <p className="font-semibold text-green-900">${(item.price * item.quantity).toFixed(2)}</p>
           </div>
         ))}
       </div>

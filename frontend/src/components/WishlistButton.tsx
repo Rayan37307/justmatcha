@@ -90,7 +90,7 @@ const WishlistButton = ({ productId, size = 'md', className = '', onClick }: Wis
     <button
       onClick={handleClick}
       disabled={isLoading}
-      className={`p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+      className={`p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-900 ${
         isWishlisted ? 'text-red-500 hover:text-red-600' : 'text-gray-400 hover:text-gray-500'
       } ${className}`}
       aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}

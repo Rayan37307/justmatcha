@@ -61,7 +61,7 @@ const ProductDetailsPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="h-12 w-12 animate-spin text-green-600" />
+        <Loader2 className="h-12 w-12 animate-spin text-green-900" />
       </div>
     );
   }
@@ -73,7 +73,7 @@ const ProductDetailsPage = () => {
           <p>{error || 'Product not found'}</p>
           <Button 
             onClick={() => navigate('/products')} 
-            className="mt-4 bg-green-600 hover:bg-green-700 text-white"
+            className="mt-4 bg-green-900 hover:bg-green-900 text-white"
           >
             Back to Products
           </Button>
@@ -105,7 +105,7 @@ const ProductDetailsPage = () => {
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link to="/products" className="flex items-center text-green-600 hover:text-green-700">
+            <Link to="/products" className="flex items-center text-green-900 hover:text-green-900">
               <ArrowLeft className="h-5 w-5 mr-1" />
               <span>Back to Products</span>
             </Link>
@@ -143,7 +143,7 @@ const ProductDetailsPage = () => {
                   key={index}
                   onClick={() => setCurrentImage(index)}
                   className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 ${
-                    currentImage === index ? 'border-green-500' : 'border-transparent'
+                    currentImage === index ? 'border-green-900' : 'border-transparent'
                   }`}
                 >
                   <img 
@@ -165,7 +165,7 @@ const ProductDetailsPage = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
 
 
-            <div className="text-3xl font-bold text-green-600 mb-6">
+            <div className="text-3xl font-bold text-green-900 mb-6">
               ${product.price.toFixed(2)}
             </div>
 
@@ -195,7 +195,7 @@ const ProductDetailsPage = () => {
             <div className="flex space-x-4">
               <Button 
                 onClick={handleAddToCart}
-                className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-md flex items-center justify-center"
+                className="flex-1 bg-green-900 hover:bg-green-900 text-white py-3 px-6 rounded-md flex items-center justify-center"
               >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to Cart

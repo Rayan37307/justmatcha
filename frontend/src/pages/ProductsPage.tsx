@@ -105,7 +105,7 @@ const ProductsPage = () => {
           <input
             type="text"
             placeholder="Search products..."
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-900"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -200,7 +200,7 @@ const ProductsPage = () => {
               <div className="relative">
                 <select
                   id="sort"
-                  className="appearance-none bg-white border rounded-md pl-3 pr-8 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="appearance-none bg-white border rounded-md pl-3 pr-8 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-900"
                   value={sortOption}
                   onChange={handleSortChange}
                 >
@@ -237,7 +237,7 @@ const ProductsPage = () => {
                     rating: 0,
                   });
                 }}
-                className="mt-4 px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 text-white"
+                className="mt-4 px-4 py-2 rounded-md bg-green-900 hover:bg-green-900 text-white"
               >
                 Clear all filters
               </button>

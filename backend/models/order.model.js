@@ -107,3 +107,4 @@ orderSchema.index({ user: 1, createdAt: -1 });
 const Order = mongoose.model('Order', orderSchema);
 
 export default Order;
+

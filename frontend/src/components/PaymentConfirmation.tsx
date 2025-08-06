@@ -19,7 +19,7 @@ const PaymentConfirmation: React.FC<PaymentConfirmationProps> = ({
       <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full">
         <div className="text-center mb-6">
           <div className="flex justify-center mb-4">
-            <Check className="text-green-500 text-6xl" />
+            <Check className="text-green-900 text-6xl" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Payment Successful</h1>
           <p className="text-gray-600">Thank you for your purchase!</p>
@@ -52,7 +52,7 @@ const PaymentConfirmation: React.FC<PaymentConfirmationProps> = ({
         <div className="flex flex-col space-y-3">
           <button
             onClick={onContinueShopping}
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-md transition duration-200"
+            className="w-full bg-green-900 hover:bg-green-900 text-white font-medium py-2 px-4 rounded-md transition duration-200"
           >
             Continue Shopping
           </button>

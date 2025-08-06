@@ -85,7 +85,7 @@ const CheckoutPage = () => {
           <h2 className="text-xl font-bold mb-2">Your cart is empty</h2>
           <button
             onClick={() => navigate('/products')}
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition"
+            className="bg-green-900 hover:bg-green-900 text-white py-2 px-4 rounded-md transition"
           >
             Browse Products
           </button>
@@ -98,12 +98,12 @@ const CheckoutPage = () => {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <div className="text-center">
-          <div className="text-green-500 text-5xl mb-4">✓</div>
+          <div className="text-green-900 text-5xl mb-4">✓</div>
           <h2 className="text-xl font-bold mb-2">Order Placed!</h2>
           <p className="mb-6">We'll contact you soon for delivery.</p>
           <button
             onClick={() => navigate('/')}
-            className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md transition"
+            className="bg-green-900 hover:bg-green-900 text-white py-2 px-4 rounded-md transition"
           >
             Back to Home
           </button>
@@ -115,10 +115,10 @@ const CheckoutPage = () => {
   return (
     <div className="min-h-screen  py-12 px-4">
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-green-700 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-green-900 mb-8">Checkout</h1>
 
         <form onSubmit={handleSubmit}>
-          <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-green-600">Delivery Information</h2>
+          <h2 className="text-xl font-semibold mb-4 border-b pb-2 text-green-900">Delivery Information</h2>
 
           <div className="space-y-4 mb-6">
             <input
@@ -128,7 +128,7 @@ const CheckoutPage = () => {
               required
               value={formData.fullName}
               onChange={handleInputChange}
-              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
             />
             <input
               type="email"
@@ -137,7 +137,7 @@ const CheckoutPage = () => {
               required
               value={formData.email}
               onChange={handleInputChange}
-              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
             />
             <input
               type="tel"
@@ -146,7 +146,7 @@ const CheckoutPage = () => {
               required
               value={formData.phone}
               onChange={handleInputChange}
-              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
             />
             <input
               type="text"
@@ -155,7 +155,7 @@ const CheckoutPage = () => {
               required
               value={formData.address}
               onChange={handleInputChange}
-              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+              className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
             />
 
             <div className="grid grid-cols-2 gap-4">
@@ -166,7 +166,7 @@ const CheckoutPage = () => {
                 required
                 value={formData.city}
                 onChange={handleInputChange}
-                className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+                className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
               />
               <input
                 type="text"
@@ -175,14 +175,14 @@ const CheckoutPage = () => {
                 required
                 value={formData.postalCode}
                 onChange={handleInputChange}
-                className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-400 outline-none"
+                className="w-full border border-green-300 p-3 rounded-md focus:ring-2 focus:ring-green-900 outline-none"
               />
             </div>
             <input type="hidden" name="country" value="Bangladesh" />
           </div>
 
           <div className="pt-6 border-t mt-10">
-            <h3 className="text-lg font-semibold mb-4 text-green-600">Order Summary</h3>
+            <h3 className="text-lg font-semibold mb-4 text-green-900">Order Summary</h3>
 
             <div className="space-y-3 mb-6">
               {cartItems.map((item) => (
@@ -205,7 +205,7 @@ const CheckoutPage = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-md transition"
+              className="w-full mt-6 bg-green-900 hover:bg-green-900 text-white font-medium py-3 rounded-md transition"
             >
               {isLoading ? 'Placing Order...' : 'Place Order (Cash on Delivery)'}
             </button>

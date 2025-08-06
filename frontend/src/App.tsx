@@ -22,6 +22,7 @@ import EditOrderPage from "./pages/EditOrderPage";
 import AccountPage from "./pages/AccountPage";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 
 const App = () => {
   const { initializeAuth, loading: authLoading } = useAuthStore();
@@ -40,9 +41,9 @@ const App = () => {
 
   return (
     <BrowserRouter >
-      <div className="min-h-screen flex flex-col bg-[#EFF5EC]">
-        <Toaster position="top-center" />
         <Navbar />
+      <div className="min-h-screen flex flex-col px-6 md:px-20 bg-[#EFF5EC]">
+        <Toaster position="top-center" />
         <main className="flex-grow mt-20">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -81,6 +82,7 @@ const App = () => {
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="/account" element={<AccountPage />} />
+              <Route path="/orders/:id" element={<OrderDetailsPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/checkout" element={<CheckoutPage />} />
@@ -94,8 +96,8 @@ const App = () => {
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </main>
-        <Footer />
       </div>
+        <Footer />
     </BrowserRouter>
   )
 }
