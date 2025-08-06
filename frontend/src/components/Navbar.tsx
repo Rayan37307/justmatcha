@@ -1,11 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Heart, Menu, X } from 'lucide-react';
+import { ShoppingCart, Heart, Menu, X, User2 } from 'lucide-react';
 import useWishlistStore from '../store/useWishlistStore';
 import { useState, useEffect } from 'react';
 import useAuthStore from '../store/useAuthStore';
 import useCartStore from '../store/useCartStore';
-import { Button } from './Button';
-
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -100,33 +98,29 @@ const Navbar = () => {
                   </span>
                 )}
               </Link>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <button 
+                  className='p-2 text-green-600 hover:text-green-600 relative'
                     onClick={() => navigate('/account')}
                   >
-                    My Account
-                  </Button>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                    <User2 />
+                  </button>
+                  <button 
+                  className='px-4 py-2 bg-green-600 text-white rounded-sm hover:bg-green-700'
                     onClick={() => {
                       logout();
                       navigate('/login');
                     }}
                   >
                     Logout
-                  </Button>
+                  </button>
                 </>
               ) : (
                 <>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <button 
                     onClick={() => navigate('/login')}
                   >
                     Login
-                  </Button>
+                  </button>
                   <button 
                     onClick={() => navigate('/register')}
                     className="bg-green-600 text-white px-3 py-1 rounded-sm hover:bg-green-700"

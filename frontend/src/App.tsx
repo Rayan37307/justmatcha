@@ -20,6 +20,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import OrderDetailsRoute from "./pages/OrderDetailsRoute";
 import EditOrderPage from "./pages/EditOrderPage";
 import AccountPage from "./pages/AccountPage";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const App = () => {
   const { initializeAuth, loading: authLoading } = useAuthStore();
@@ -37,7 +39,7 @@ const App = () => {
   }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <div className="min-h-screen flex flex-col bg-[#EFF5EC]">
         <Toaster position="top-center" />
         <Navbar />
@@ -46,17 +48,17 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/about" element={<About />} />
             <Route path="/payment-confirmed" element={<PaymentConformed />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:id" element={<ProductDetailsPage />} />
+            <Route path="/contact" element={<Contact />} />
             <Route
               path="/admin/dashboard"
               element={
                 <AdminRoute>
-  <>
-    <AdminDashboard />
-  </>
-</AdminRoute>
+                  <AdminDashboard />
+                </AdminRoute>
               }
             />
             <Route

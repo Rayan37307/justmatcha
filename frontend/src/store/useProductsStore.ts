@@ -34,6 +34,7 @@ interface ProductsState {
   createProduct: (product: Omit<Product, '_id' | 'createdAt' | 'updatedAt' | '__v'>) => Promise<Product>;
   updateProduct: (id: string, updates: Partial<Omit<Product, '_id' | 'createdAt' | 'updatedAt' | '__v'>>) => Promise<Product>;
   deleteProduct: (id: string) => Promise<void>;
+  fetchProductById: (id: string) => Promise<Product>;
   clearError: () => void;
 }
 
@@ -120,6 +121,21 @@ const useProductsStore = create<ProductsState>((set) => ({
     } catch (error: any) {
       set({ 
         error: error.response?.data?.message || 'Failed to delete product',
+        loading: false 
+      });
+      throw error;
+    }
+  },
+
+  fetchProductById: async (id: string) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await api.get<ProductResponse>(`/products/${id}`);
+      set({ loading: false });
+      return response.data.data;
+    } catch (error: any) {
+      set({ 
+        error: error.response?.data?.message || 'Failed to fetch product',
         loading: false 
       });
       throw error;

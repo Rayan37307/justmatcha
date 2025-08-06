@@ -1,46 +1,98 @@
-import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Heart, Minus, Plus, Star } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, ShoppingCart, Heart, Minus, Plus, Star, Loader2 } from 'lucide-react';
 import { Button } from '../components/Button';
 import useCartStore from '../store/useCartStore';
 import useWishlistStore from '../store/useWishlistStore';
+import useProductsStore from '../store/useProductsStore';
+
+interface ProductDetails extends Omit<Product, 'image'> {
+  images: string[];
+  rating: number;
+  reviews: number;
+  details: string;
+  sizes: string[];
+}
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('M');
   const [currentImage, setCurrentImage] = useState(0);
+  const [product, setProduct] = useState<ProductDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
+  const { fetchProductById } = useProductsStore();
   const { addToCart } = useCartStore();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
 
-  // Mock product data - replace with actual API call
-  const product = {
-    id: id || '1',
-    name: 'Matcha Green Tea Powder',
-    price: 24.99,
-    rating: 4.8,
-    reviews: 128,
-    description: 'Premium ceremonial grade matcha green tea powder. Rich in antioxidants and provides a smooth, umami flavor with a vibrant green color. Sourced directly from Uji, Japan.',
-    details: '• 100% Pure Ceremonial Grade Matcha\n• 30g Tin (30-40 servings)\n• Caffeine Content: 70mg per serving\n• Origin: Uji, Japan\n• Harvest: Spring 2023',
-    inStock: true,
-    images: [
-      'https://images.unsplash.com/photo-1550258987-190a2d41a8ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1550258987-1a4c3c8c4c82?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1550258987-1a4c3c8c4c83?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    ],
-    sizes: ['S', 'M', 'L'],
-  };
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!id) {
+        setLoading(false);
+        setError('No product ID provided');
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        setError(null);
+        const productData = await fetchProductById(id);
+        // Transform the product data to match our extended interface
+        const productDetails: ProductDetails = {
+          ...productData,
+          images: productData.image ? [productData.image] : [],
+          details: productData.description || '',
+        };
+        setProduct(productDetails);
+      } catch (err) {
+        console.error('Failed to fetch product:', err);
+        setError('Failed to load product. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProduct();
+  }, [id, fetchProductById, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader2 className="h-12 w-12 animate-spin text-green-600" />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md max-w-md w-full">
+          <p>{error || 'Product not found'}</p>
+          <Button 
+            onClick={() => navigate('/products')} 
+            className="mt-4 bg-green-600 hover:bg-green-700 text-white"
+          >
+            Back to Products
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   const handleAddToCart = () => {
-    addToCart(product.id, quantity);
+    if (!product) return;
+    addToCart(product._id, quantity);
   };
 
   const toggleWishlist = () => {
-    if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
+    if (!product) return;
+    if (isInWishlist(product._id)) {
+      removeFromWishlist(product._id);
     } else {
-      addToWishlist(product.id);
+      addToWishlist(product._id);
     }
   };
 
@@ -60,9 +112,9 @@ const ProductDetailsPage = () => {
             <div className="flex items-center space-x-4">
               <button 
                 onClick={toggleWishlist}
-                className={`p-2 rounded-full ${isInWishlist(product.id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                className={`p-2 rounded-full ${isInWishlist(product._id) ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
               >
-                <Heart className={`h-6 w-6 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                <Heart className={`h-6 w-6 ${isInWishlist(product._id) ? 'fill-current' : ''}`} />
               </button>
             </div>
           </div>
@@ -76,13 +128,17 @@ const ProductDetailsPage = () => {
           <div className="mb-8 lg:mb-0">
             <div className="bg-white rounded-lg overflow-hidden shadow-md mb-4">
               <img 
-                src={product.images[currentImage]} 
+                src={product.images[currentImage] || '/placeholder-product.jpg'} 
                 alt={product.name}
                 className="w-full h-96 object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/placeholder-product.jpg';
+                }}
               />
             </div>
             <div className="flex space-x-2 overflow-x-auto pb-2">
-              {product.images.map((img, index) => (
+              {product.images.length > 0 ? product.images.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setCurrentImage(index)}
@@ -96,56 +152,24 @@ const ProductDetailsPage = () => {
                     className="w-full h-full object-cover"
                   />
                 </button>
-              ))}
+              )) : (
+                <div className="w-16 h-16 bg-gray-100 rounded-md flex items-center justify-center text-gray-400">
+                  <span className="text-xs">No images</span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Product Info */}
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-            
-            <div className="flex items-center mb-4">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    className={`h-5 w-5 ${
-                      i < Math.floor(product.rating) 
-                        ? 'text-yellow-400 fill-current' 
-                        : 'text-gray-300'
-                    }`} 
-                  />
-                ))}
-              </div>
-              <span className="ml-2 text-sm text-gray-600">
-                {product.rating} ({product.reviews} reviews)
-              </span>
-            </div>
+
 
             <div className="text-3xl font-bold text-green-600 mb-6">
               ${product.price.toFixed(2)}
             </div>
 
             <p className="text-gray-700 mb-6">{product.description}</p>
-
-            <div className="mb-6">
-              <h3 className="text-sm font-medium text-gray-900 mb-2">Size</h3>
-              <div className="flex space-x-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 rounded-md border ${
-                      selectedSize === size
-                        ? 'bg-green-100 border-green-500 text-green-700'
-                        : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                ))}
-              </div>
-            </div>
 
             <div className="mb-6">
               <h3 className="text-sm font-medium text-gray-900 mb-2">Quantity</h3>
@@ -181,7 +205,7 @@ const ProductDetailsPage = () => {
             <div className="mt-8 border-t border-gray-200 pt-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Product Details</h3>
               <div className="prose prose-sm text-gray-500 whitespace-pre-line">
-                {product.details}
+                {product?.details}
               </div>
             </div>
           </div>

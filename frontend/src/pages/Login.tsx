@@ -34,7 +34,7 @@ export default function LoginPage() {
       setLoading(true);
       setError("");
       await signIn(formData.email, formData.password);
-      navigate("/dashboard");
+      navigate("/account");
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid email or password");
     } finally {
