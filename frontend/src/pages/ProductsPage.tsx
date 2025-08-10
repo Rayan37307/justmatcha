@@ -122,7 +122,7 @@ const ProductsPage = () => {
             </h3>
             
             {/* Price Range Filter */}
-            <div className="mb-6">
+            <div className="mb-">
               <h4 className="text-sm font-medium text-gray-700 mb-2">Price Range</h4>
               <div className="flex items-center justify-between mb-2">
                 <span>${filters.priceRange.min}</span>
@@ -134,56 +134,8 @@ const ProductsPage = () => {
                 max="100"
                 value={filters.priceRange.max}
                 onChange={(e) => setFilters({...filters, priceRange: {...filters.priceRange, max: parseInt(e.target.value)}})}
-                className="w-full"
+                className="w-full accent-green-900 range-input"
               />
-            </div>
-
-            {/* Category Filter */}
-            <div className="mb-6">
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Category</h4>
-              <select
-                className="w-full p-2 border rounded-md"
-                value={filters.category}
-                onChange={(e) => setFilters({...filters, category: e.target.value})}
-              >
-                <option value="">All Categories</option>
-                <option value="matcha">Matcha</option>
-                <option value="tea">Tea</option>
-                <option value="accessories">Accessories</option>
-              </select>
-            </div>
-
-            {/* Rating Filter */}
-            <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Rating</h4>
-              {[4, 3, 2, 1].map((rating) => (
-                <div key={rating} className="flex items-center mb-2">
-                  <input
-                    type="radio"
-                    id={`rating-${rating}`}
-                    name="rating"
-                    checked={filters.rating === rating}
-                    onChange={() => setFilters({...filters, rating})}
-                    className="mr-2"
-                  />
-                  <label htmlFor={`rating-${rating}`} className="flex items-center">
-                    {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        size={16} 
-                        className={`${i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                      />
-                    ))}
-                    <span className="ml-1 text-sm">& Up</span>
-                  </label>
-                </div>
-              ))}
-              <button 
-                onClick={() => setFilters({...filters, rating: 0})}
-                className="text-sm text-blue-600 hover:underline mt-2"
-              >
-                Clear Rating
-              </button>
             </div>
           </div>
         </div>

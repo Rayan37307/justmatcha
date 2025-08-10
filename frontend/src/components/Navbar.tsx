@@ -73,7 +73,7 @@ const Navbar = () => {
                 )}
               </Link>
             )}
-
+            {isAuthenticated && (
             <Link to="/cart" className="relative text-green-900 p-2">
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
@@ -82,6 +82,8 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+            )}
+
 
             {isAuthenticated ? (
               <>

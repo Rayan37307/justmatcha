@@ -5,6 +5,7 @@ import { Button } from '../components/Button';
 import useCartStore from '../store/useCartStore';
 import useWishlistStore from '../store/useWishlistStore';
 import useProductsStore from '../store/useProductsStore';
+import toast from 'react-hot-toast';
 
 interface ProductDetails extends Omit<Product, 'image'> {
   images: string[];
@@ -85,6 +86,7 @@ const ProductDetailsPage = () => {
   const handleAddToCart = () => {
     if (!product) return;
     addToCart(product._id, quantity);
+    toast.success('Added to cart!');
   };
 
   const toggleWishlist = () => {
@@ -100,7 +102,7 @@ const ProductDetailsPage = () => {
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

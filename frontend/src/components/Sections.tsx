@@ -2,7 +2,7 @@ import React from 'react'
 
 const Sections = () => {
   return (
-    <div className="flex flex-wrap items-center justify-center mt-20">
+    <div className="flex flex-wrap items-center justify-center mt-20 mb-20">
         <div className='flex flex-wrap items-center justify-center'>
 
         <div className="flex flex-col justify-center items-center md:w-1/2">

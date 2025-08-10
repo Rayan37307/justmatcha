@@ -35,7 +35,7 @@ const About = () => {
           <h2 className="text-2xl font-semibold mb-4">👩‍🔬 Meet the Founder</h2>
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <img
-              src="https://placehold.co/150x150?text=Founder"
+              src="https://imgs.search.brave.com/rHjKVzOUTGWUEFDVsIAEnaa3HCCYZtTlkwSngk3J5DE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9ueWNw/aG90by5jb20vd3At/Y29udGVudC91cGxv/YWRzLzIwMjAvMDQv/OWQxZGZjNzYtbnlj/LWNlby1wb3J0cmFp/dC02MDB4Mzk5Lmpw/Zw"
               alt="Founder"
               className="w-36 h-36 rounded-full object-cover shadow-md"
             />

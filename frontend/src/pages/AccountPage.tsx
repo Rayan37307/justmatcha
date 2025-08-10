@@ -6,7 +6,7 @@ import api from '../utils/axios';
 import type { Order } from '../types/order';
 
 const AccountPage = () => {
-  const { user, updateProfile, logout } = useAuthStore();
+  const { user, updateProfile, logout, loading: authLoading } = useAuthStore();
   const navigate = useNavigate();
   
   const [isEditing, setIsEditing] = useState(false);
@@ -103,25 +103,47 @@ const AccountPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/login', { state: { from: '/account' } });
+    } catch (error) {
+      console.error('Logout failed:', error);
+      toast.error('Failed to log out. Please try again.');
+    }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#EFF5EC]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-900"></div>
+      </div>
+    );
+  }
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#EFF5EC]">
+        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
           <div className="text-center">
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Please sign in</h2>
             <p className="mt-2 text-sm text-gray-600">You need to be logged in to view this page</p>
-            <div className="mt-6">
+            <div className="mt-6 space-y-4">
               <button
-                onClick={() => navigate('/login')}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-900 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-900"
+                onClick={() => navigate('/login', { state: { from: '/account' } })}
+                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-900 hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
               >
-                Sign in
+                Sign in to your account
               </button>
+              <p className="text-sm text-gray-600">
+                Don't have an account?{' '}
+                <button
+                  onClick={() => navigate('/signup', { state: { from: '/account' } })}
+                  className="font-medium text-green-900 hover:text-green-800"
+                >
+                  Sign up
+                </button>
+              </p>
             </div>
           </div>
         </div>

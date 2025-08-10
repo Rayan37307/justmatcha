@@ -28,13 +28,22 @@ const App = () => {
   const { initializeAuth, loading: authLoading } = useAuthStore();
   
   useEffect(() => {
-    initializeAuth();
+    const initAuth = async () => {
+      try {
+        await initializeAuth();
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+      }
+    };
+    
+    initAuth();
   }, [initializeAuth]);
 
+  // Show loading spinner only if we're still initializing
   if (authLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[#EFF5EC]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-900"></div>
       </div>
     );
   }
@@ -42,7 +51,7 @@ const App = () => {
   return (
     <BrowserRouter >
         <Navbar />
-      <div className="min-h-screen flex flex-col px-6 md:px-20 bg-[#EFF5EC]">
+      <div className="min-h-screen flex flex-col px-4 md:px-6 lg:px-16 bg-[#EFF5EC]">
         <Toaster position="top-center" />
         <main className="flex-grow mt-20">
           <Routes>

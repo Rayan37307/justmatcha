@@ -56,15 +56,21 @@ const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: localStorage.getItem('token') || null,
   loading: true,
-  isAuthenticated: !!localStorage.getItem('token'),
-  isAdmin: !!localStorage.getItem('token') && localStorage.getItem('role') === 'admin',
+  isAuthenticated: false,
+  isAdmin: false,
   signIn: async (email: string, password: string) => {
     const res = await api.post<AuthDataResponse>("/auth/sign-in", { email, password });
     const { data } = res.data;
     if (data.token) {
       localStorage.setItem("token", data.token);
       setAuthToken(data.token);
-      set({ user: data.user, token: data.token, isAuthenticated: true });
+      set({ 
+        user: data.user, 
+        token: data.token, 
+        isAuthenticated: true,
+        isAdmin: data.user.role === 'admin',
+        loading: false 
+      });
       return data.user;
     }
     throw new Error('No token received in sign-in response');
@@ -76,7 +82,13 @@ const useAuthStore = create<AuthState>((set) => ({
     if (data.token) {
       localStorage.setItem("token", data.token);
       setAuthToken(data.token);
-      set({ user: data.user, token: data.token, isAuthenticated: true });
+      set({ 
+        user: data.user, 
+        token: data.token, 
+        isAuthenticated: true,
+        isAdmin: data.user.role === 'admin',
+        loading: false 
+      });
       return data.user;
     }
     throw new Error('No token received in sign-up response');
@@ -85,75 +97,92 @@ const useAuthStore = create<AuthState>((set) => ({
   logout: () => {
     localStorage.removeItem("token");
     setAuthToken(null);
-    set({ user: null, token: null, isAuthenticated: false, loading: false });
+    set({ 
+      user: null, 
+      token: null, 
+      isAuthenticated: false, 
+      isAdmin: false,
+      loading: false 
+    });
   },
 
   fetchUser: async () => {
-    console.log('fetchUser - making request to /auth/user');
-    const res = await api.get<AuthResponse>("/auth/user");
-    console.log('fetchUser - response:', res.data);
-    const user = res.data.data;
-    console.log('fetchUser - extracted user:', user);
-    set({ user, isAuthenticated: true });
-    return user;
+    try {
+      const res = await api.get<AuthResponse>("/auth/me");
+      const user = res.data.data;
+      set({ 
+        user, 
+        isAuthenticated: true,
+        isAdmin: user.role === 'admin',
+        loading: false 
+      });
+      return user;
+    } catch (error) {
+      console.error('Failed to fetch user:', error);
+      throw error;
+    }
   },
 
   initializeAuth: async () => {
     const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        set({ loading: true });
-        const response = await api.get<{ data: User }>('/auth/me');
-        
-        if (response.data && response.data.data) {
-          set({ 
-            user: response.data.data, 
-            token, 
-            isAuthenticated: true,
-            isAdmin: response.data.data.role === 'admin',
-            loading: false 
-          });
-        } else {
-          throw new Error('Invalid user data received');
-        }
-      } catch (error: any) {
-        console.error('Auth initialization error:', error);
-        // Only clear auth state if it's an actual auth error
-        if (error?.response?.status === 401 || error?.response?.status === 403) {
-          localStorage.removeItem('token');
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-            isAdmin: false,
-            loading: false
-          });
-        } else {
-          set({ loading: false });
-        }
-      }
-    } else {
+    if (!token) {
       set({ loading: false });
+      return;
+    }
+    
+    setAuthToken(token);
+    try {
+      const response = await api.get<{ data: User }>('/auth/me');
+      
+      if (response.data?.data) {
+        set({ 
+          user: response.data.data, 
+          token, 
+          isAuthenticated: true,
+          isAdmin: response.data.data.role === 'admin',
+          loading: false 
+        });
+      } else {
+        throw new Error('Invalid user data received');
+      }
+    } catch (error: any) {
+      console.error('Auth initialization error:', error);
+      // Only clear auth state if it's an actual auth error
+      if (error?.response?.status === 401 || error?.response?.status === 403) {
+        localStorage.removeItem('token');
+        set({
+          user: null,
+          token: null,
+          isAuthenticated: false,
+          isAdmin: false,
+          loading: false
+        });
+      } else {
+        set({ loading: false });
+      }
     }
   },
 
   updateProfile: async (data: { name?: string; email?: string; currentPassword?: string; newPassword?: string }) => {
     try {
       set({ loading: true });
-      const response = await api.put<{ data: User }>('/auth/update-profile', data);
+      const response = await api.put<AuthResponse>('/auth/update-profile', data);
       
-      if (response.data && response.data.data) {
-        set(state => ({
-          user: response.data.data,
-          isAdmin: response.data.data.role === 'admin',
-          loading: false
-        }));
-        return response.data.data;
+      if (response.data.success) {
+        const updatedUser = response.data.data;
+        set({ 
+          user: updatedUser,
+          isAdmin: updatedUser.role === 'admin' 
+        });
+        return updatedUser;
+      } else {
+        throw new Error(response.data.message || 'Failed to update profile');
       }
-      throw new Error('Invalid response format');
-    } catch (error: any) {
-      set({ loading: false });
+    } catch (error) {
+      console.error('Update profile error:', error);
       throw error;
+    } finally {
+      set(prev => ({ ...prev, loading: false }));
     }
   }
 }));

@@ -74,14 +74,14 @@ const ProductCard = ({ product, onAddToCart, className = '' }: ProductCardProps)
       </Link>
       <div className="px-4 pb-6 flex flex-col items-center gap-4">
         <div className="text-center mt-5 w-full">
-          <Link to={`/products/${product._id}`} className="hover:opacity-80 transition-opacity">
+          <Link to={`/products/${product._id}`} className="hover:opacity-80 mb-4 transition-opacity">
             <h3 className="text-green-900 text-xl font-semibold">{product.name}</h3>
-            <p className="text-green-900 text-lg font-bold mb-4">৳{product.price.toFixed(2)}</p>
+            <p className="text-green-900 text-lg font-bold mb-10">৳{product.price.toFixed(2)}</p>
           </Link>
           <button 
             onClick={handleAddToCart}
             disabled={addingToCart}
-            className={`w-full py-3 px-4 bg-green-900 text-white text-sm rounded-sm hover:bg-green-800 transition flex items-center justify-center gap-2 ${
+            className={`w-[92%] py-3 px-4 absolute bottom-2 left-2 bg-green-900 text-white text-sm rounded-sm hover:bg-green-800 transition flex items-center justify-center gap-2 ${
               addingToCart ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
