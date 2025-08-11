@@ -1,25 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Heart, Minus, Plus, Star, Loader2 } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Heart, Minus, Plus, Loader2 } from 'lucide-react';
 import { Button } from '../components/Button';
 import useCartStore from '../store/useCartStore';
 import useWishlistStore from '../store/useWishlistStore';
 import useProductsStore from '../store/useProductsStore';
 import toast from 'react-hot-toast';
+import type { Product } from '../types';
 
-interface ProductDetails extends Omit<Product, 'image'> {
+interface ProductDetails extends Product {
   images: string[];
-  rating: number;
-  reviews: number;
   details: string;
-  sizes: string[];
 }
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState('M');
   const [currentImage, setCurrentImage] = useState(0);
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,10 +40,10 @@ const ProductDetailsPage = () => {
         const productData = await fetchProductById(id);
         // Transform the product data to match our extended interface
         const productDetails: ProductDetails = {
-          ...productData,
-          images: productData.image ? [productData.image] : [],
-          details: productData.description || '',
-        };
+  ...productData,
+  images: productData.image ? [productData.image] : [],
+  details: productData.description || '',
+};
         setProduct(productDetails);
       } catch (err) {
         console.error('Failed to fetch product:', err);

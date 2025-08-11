@@ -1,4 +1,4 @@
-import React from 'react'
+
 import PaymentConfirmation from '../components/PaymentConfirmation';
 
 const PaymentConformed = () => {

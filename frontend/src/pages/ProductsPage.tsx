@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Filter, Search, ChevronDown, Star } from 'lucide-react';
+import { Filter, Search, ChevronDown } from 'lucide-react';
 import api from '../utils/axios';
-import { Button } from '../components/Button';
 import type { Product } from '../types/index';
-import useCartStore from '../store/useCartStore';
-import useWishlistStore from '../store/useWishlistStore';
 import ProductCard from '../components/ProductCard';
 
 const ProductsPage = () => {
@@ -18,9 +14,6 @@ const ProductsPage = () => {
     priceRange: { min: 0, max: 100 },
     rating: 0,
   });
-
-  const { addToCart } = useCartStore();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlistStore();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,18 +35,6 @@ const ProductsPage = () => {
     setSortOption(e.target.value);
   };
 
-  const handleAddToCart = (productId: string) => {
-    addToCart(productId, 1);
-  };
-
-  const handleWishlistToggle = async (productId: string) => {
-    if (isInWishlist(productId)) {
-      await removeFromWishlist(productId);
-    } else {
-      await addToWishlist(productId);
-    }
-  };
-
   // Apply filters and sorting
   const filteredAndSortedProducts = [...products]
     .filter(product => 
@@ -61,14 +42,9 @@ const ProductsPage = () => {
       product.description.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .filter(product => 
-      filters.category ? product.category === filters.category : true
-    )
-    .filter(product => 
       product.price >= filters.priceRange.min && 
+     
       product.price <= filters.priceRange.max
-    )
-    .filter(product => 
-      filters.rating ? product.rating >= filters.rating : true
     )
     .sort((a, b) => {
       switch (sortOption) {
@@ -80,8 +56,6 @@ const ProductsPage = () => {
           return a.name.localeCompare(b.name);
         case 'name-desc':
           return b.name.localeCompare(a.name);
-        case 'rating-desc':
-          return b.rating - a.rating;
         default:
           return 0;
       }
