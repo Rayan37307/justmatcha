@@ -41,7 +41,7 @@ const BestSellers = () => {
     <section className="py-16">
       <h2 className="text-green-900 text-3xl font-bold mb-10">Best Sellers</h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-8 justify-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-8 justify-items-center">
         {products.map((product) => (
           <ProductCard 
             key={product._id} 
