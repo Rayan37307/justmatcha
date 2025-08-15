@@ -1,5 +1,6 @@
 import React from 'react';
 import heroImage from '../assets/hero.png';
+import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
   return (
@@ -17,12 +18,12 @@ const Hero: React.FC = () => {
             without the crash.
           </p>
           <div className="flex justify-center md:justify-start space-x-4">
-            <button className="bg-green-800 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-900 transition duration-300 shadow-lg">
+            <Link to="/products" className="bg-green-800 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-900 transition duration-300 shadow-lg">
               Shop Now
-            </button>
-            <button className="bg-transparent text-green-800 font-bold py-4 px-8 rounded-lg border-2 border-green-800 hover:bg-green-800 hover:text-white transition duration-300">
+            </Link>
+            <Link to="/about" className="bg-transparent text-green-800 font-bold py-4 px-8 rounded-lg border-2 border-green-800 hover:bg-green-800 hover:text-white transition duration-300">
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
 

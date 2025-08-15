@@ -17,11 +17,10 @@ const Sections = () => {
         </div>
         <div className='flex flex-wrap items-center justify-center'>
 
-        <div className="flex flex-col justify-center items-start md:w-1/2 md:pl-10">
+        <div className="flex flex-col justify-center items-start md:w-1/2">
             <h1 className="text-3xl text-green-900 mb-5">Healthy Coffee Alternative</h1>
             <p className="text-lg">All the energy, none of the jitters. Matcha provides a calm, focused boost thanks to its unique balance of caffeine and L-theanine – making it the smarter way to power through your day.</p>
             <button className="bg-green-900 text-white px-10 py-3 rounded-sm mt-6 md:mt-10">FAQ</button>
-
         </div>
 
         <div className="flex flex-col justify-center items-center md:w-1/2">

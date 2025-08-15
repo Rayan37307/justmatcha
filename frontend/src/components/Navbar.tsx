@@ -102,12 +102,11 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <button onClick={() => navigate('/login')} className="text-green-900 px-2">Login</button>
                 <button
-                  onClick={() => navigate('/register')}
-                  className="bg-green-900 text-white px-3 py-1 rounded hover:bg-green-800"
+                  onClick={() => navigate('/login')}
+                  className="bg-green-900 cursor-pointer text-white px-3 py-1 rounded hover:bg-green-800"
                 >
-                  Sign Up
+                  Login
                 </button>
               </>
             )}
@@ -163,18 +162,9 @@ const Navbar = () => {
                     navigate('/login');
                     setIsMenuOpen(false);
                   }}
-                  className="block w-full text-left px-3 py-2 text-green-900 hover:bg-gray-50"
+                  className="block cursor-pointer w-full text-left px-3 py-2 text-green-900 hover:bg-green-50"
                 >
                   Login
-                </button>
-                <button
-                  onClick={() => {
-                    navigate('/register');
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-green-900 hover:bg-green-50"
-                >
-                  Sign Up
                 </button>
               </>
             )}
