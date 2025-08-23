@@ -4,13 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import useWishlistStore from "../store/useWishlistStore";
 import useAuthStore from "../store/useAuthStore";
 import useCartStore from "../store/useCartStore";
+import { AccountDropdown } from "./AccountDropdown";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
   const { isAuthenticated, logout } = useAuthStore();
-  const [dropdownClicked, setDropdownClicked] = useState(false);
   const { items: cartItems } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
   const navigate = useNavigate();
@@ -126,16 +126,6 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="flex items-center space-x-2">
             {isAuthenticated && (
-              <Link to="/wishlist" className="relative text-green-900 p-2">
-                <Heart className="w-5 h-5" />
-                {wishlistItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-green-900 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    {wishlistItems.length > 9 ? "9+" : wishlistItems.length}
-                  </span>
-                )}
-              </Link>
-            )}
-            {isAuthenticated && (
               <Link to="/cart" className="relative text-green-900 p-2">
                 <ShoppingCart className="w-5 h-5" />
                 {cartItemCount > 0 && (
@@ -147,48 +137,9 @@ const Navbar = () => {
             )}
 
             {isAuthenticated ? (
-              <>
-                <div className="relative" ref={menuRef}>
-                  <button
-                    onClick={() => setDropdownClicked(!dropdownClicked)}
-                    className="p-2 text-green-900 rounded-full hover:bg-green-100"
-                  >
-                    <User2 className="w-5 h-5" />
-                  </button>
-
-                  {dropdownClicked && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg p-2">
-                      <button
-                        onClick={() => navigate("/account")}
-                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                      >
-                        My Account
-                      </button>
-                      <button
-                        onClick={() => navigate("/settings")}
-                        className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-                      >
-                        Settings
-                      </button>
-                      <button
-                        onClick={() => console.log("Logout")}
-                        className="block w-full text-left px-3 py-2 text-red-600 hover:bg-gray-100 rounded"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate("/login");
-                  }}
-                  className="bg-green-900 text-white px-3 py-1 rounded hover:bg-green-800"
-                >
-                  Logout
-                </button>
-              </>
+              <div className="max-md:hidden">
+                <AccountDropdown />
+              </div>
             ) : (
               <>
                 <button
@@ -229,9 +180,7 @@ const Navbar = () => {
             </button>
           </div>
           <div className="flex flex-col justify-start ">
-            <NavLink to="/products" className="py-5 border-b-2 border-black">
-              Products
-            </NavLink>
+            <NavLink to="/products">Products</NavLink>
             <NavLink to="/about">About</NavLink>
             <NavLink to="/contact">Contact</NavLink>
             {isAuthenticated && <NavLink to="/wishlist">Wishlist</NavLink>}
@@ -239,25 +188,7 @@ const Navbar = () => {
 
             {isAuthenticated ? (
               <>
-                <button
-                  onClick={() => {
-                    navigate("/account");
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-green-900 hover:bg-gray-50"
-                >
-                  My Account
-                </button>
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate("/login");
-                    setIsMenuOpen(false);
-                  }}
-                  className="block w-full text-left px-3 py-2 text-green-900 hover:bg-gray-50"
-                >
-                  Logout
-                </button>
+                <AccountDropdown />
               </>
             ) : (
               <>
