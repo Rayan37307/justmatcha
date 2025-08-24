@@ -12,10 +12,15 @@ const BestSellers = () => {
   if (loading) {
     return (
       <section className="py-16">
-        <h2 className="text-green-900 text-3xl font-bold mb-10">Best Sellers</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+        <h2 className="text-green-900 text-3xl font-bold mb-10">
+          Best Sellers
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="w-full max-w-[270px] bg-white rounded-md overflow-hidden animate-pulse">
+            <div
+              key={i}
+              className="w-full max-w-[270px] bg-white rounded-md overflow-hidden animate-pulse"
+            >
               <div className="w-full h-[270px] bg-gray-200"></div>
               <div className="p-4">
                 <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto mb-2"></div>
@@ -41,12 +46,9 @@ const BestSellers = () => {
     <section className="py-16">
       <h2 className="text-green-900 text-3xl font-bold mb-10">Best Sellers</h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-8 justify-items-center">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-8 justify-items-center">
         {products.map((product) => (
-          <ProductCard 
-            key={product._id} 
-            product={product} 
-          />
+          <ProductCard key={product._id} product={product} />
         ))}
       </div>
     </section>

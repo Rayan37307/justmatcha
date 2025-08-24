@@ -57,45 +57,60 @@ const ProductCard = ({
 
   return (
     <div
-      className={`relative w-full max-w-[270px] bg-white rounded-md overflow-hidden hover:shadow-lg transition-shadow ${className}`}
+      className={`relative flex flex-col w-full max-w-[300px] bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
     >
+      {/* Product Image */}
       <Link to={`/products/${product._id}`} className="block">
         <div className="relative overflow-hidden group">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-[270px] object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-[220px] sm:h-[240px] md:h-[260px] object-cover group-hover:scale-105 transition-transform duration-500"
             onError={(e) => {
               (e.target as HTMLImageElement).src = "/product.png";
             }}
           />
-          <div className="absolute top-2 right-2 flex flex-col gap-2 hover:scale-110 cursor-pointer transition-opacity duration-200">
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+
+          {/* Wishlist */}
+          <div className="absolute top-3 right-3 flex flex-col gap-2 cursor-pointer">
             <WishlistButton
               productId={product._id}
               size="md"
-              className="bg-white/80 hover:bg-white p-1.5 rounded-full shadow-md z-10"
+              className="bg-white/90 hover:bg-white p-2 rounded-full shadow-md z-10 transition"
             />
           </div>
         </div>
       </Link>
-      <div className="px-4 pb-6 flex flex-col items-center gap-4">
-        <div className="text-center mt-5 w-full">
-          <Link
-            to={`/products/${product._id}`}
-            className="hover:opacity-80 mb-4 transition-opacity"
-          >
-            <h3 className="text-green-900 text-xl font-semibold">
-              {product.name}
-            </h3>
-            <p className="text-green-900 text-lg font-bold mb-10">
-              ৳{product.price.toFixed(2)}
-            </p>
-          </Link>
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow px-4 py-4">
+        <Link
+          to={`/products/${product._id}`}
+          className="hover:opacity-80 transition-opacity flex-grow"
+        >
+          <h3 className="text-green-900 text-lg font-semibold mb-1 line-clamp-1">
+            {product.name}
+          </h3>
+          <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+            {product.description || "No description available."}
+          </p>
+          <p className="text-green-900 text-xl font-bold">
+            ৳{product.price.toLocaleString()}
+          </p>
+        </Link>
+
+        {/* Fixed Button at Bottom */}
+        <div className="mt-auto pt-4">
           <button
             onClick={handleAddToCart}
             disabled={addingToCart}
-            className={`w-[92%] py-3 px-4 absolute bottom-2 left-2 bg-green-900 text-white text-sm rounded-sm hover:bg-green-800 transition flex items-center justify-center gap-2 ${
-              addingToCart ? "opacity-70 cursor-not-allowed" : ""
+            aria-label="Add to cart"
+            className={`w-full py-3 px-4 bg-green-900 text-white text-sm rounded-lg flex items-center justify-center gap-2 transition-all duration-300 ${
+              addingToCart
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:bg-green-800 active:scale-95"
             }`}
           >
             {addingToCart ? (
@@ -117,7 +132,10 @@ const ProductCard = ({
                   <path
                     className="opacity-75"
                     fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0
+                    5.373 0 12h4zm2 5.291A7.962 7.962 0
+                    014 12H0c0 3.042 1.135 5.824 3
+                    7.938l3-2.647z"
                   ></path>
                 </svg>
                 Adding...

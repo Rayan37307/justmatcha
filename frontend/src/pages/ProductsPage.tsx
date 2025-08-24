@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
-import { Filter, Search, ChevronDown } from 'lucide-react';
-import api from '../utils/axios';
-import type { Product } from '../types/index';
-import ProductCard from '../components/ProductCard';
+import { useState, useEffect } from "react";
+import { Filter, Search, ChevronDown } from "lucide-react";
+import api from "../utils/axios";
+import type { Product } from "../types/index";
+import ProductCard from "../components/ProductCard";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOption, setSortOption] = useState('price-asc');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("price-asc");
   const [filters, setFilters] = useState({
-    category: '',
+    category: "",
     priceRange: { min: 0, max: 100 },
     rating: 0,
   });
@@ -19,10 +19,10 @@ const ProductsPage = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await api.get('/products');
+        const response = await api.get("/products");
         setProducts(response.data.data);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error("Error fetching products:", error);
       } finally {
         setLoading(false);
       }
@@ -37,24 +37,25 @@ const ProductsPage = () => {
 
   // Apply filters and sorting
   const filteredAndSortedProducts = [...products]
-    .filter(product => 
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchQuery.toLowerCase())
+    .filter(
+      (product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.description.toLowerCase().includes(searchQuery.toLowerCase()),
     )
-    .filter(product => 
-      product.price >= filters.priceRange.min && 
-     
-      product.price <= filters.priceRange.max
+    .filter(
+      (product) =>
+        product.price >= filters.priceRange.min &&
+        product.price <= filters.priceRange.max,
     )
     .sort((a, b) => {
       switch (sortOption) {
-        case 'price-asc':
+        case "price-asc":
           return a.price - b.price;
-        case 'price-desc':
+        case "price-desc":
           return b.price - a.price;
-        case 'name-asc':
+        case "name-asc":
           return a.name.localeCompare(b.name);
-        case 'name-desc':
+        case "name-desc":
           return b.name.localeCompare(a.name);
         default:
           return 0;
@@ -75,7 +76,10 @@ const ProductsPage = () => {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <h1 className="text-3xl font-bold mb-4 md:mb-0">All Products</h1>
         <div className="relative w-full md:w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+            size={18}
+          />
           <input
             type="text"
             placeholder="Search products..."
@@ -94,10 +98,12 @@ const ProductsPage = () => {
               <Filter size={18} className="mr-2" />
               Filters
             </h3>
-            
+
             {/* Price Range Filter */}
             <div className="mb-">
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Price Range</h4>
+              <h4 className="text-sm font-medium text-gray-700 mb-2">
+                Price Range
+              </h4>
               <div className="flex items-center justify-between mb-2">
                 <span>${filters.priceRange.min}</span>
                 <span>${filters.priceRange.max}</span>
@@ -107,7 +113,15 @@ const ProductsPage = () => {
                 min="0"
                 max="100"
                 value={filters.priceRange.max}
-                onChange={(e) => setFilters({...filters, priceRange: {...filters.priceRange, max: parseInt(e.target.value)}})}
+                onChange={(e) =>
+                  setFilters({
+                    ...filters,
+                    priceRange: {
+                      ...filters.priceRange,
+                      max: parseInt(e.target.value),
+                    },
+                  })
+                }
                 className="w-full accent-green-900 range-input"
               />
             </div>
@@ -122,7 +136,9 @@ const ProductsPage = () => {
               Showing {filteredAndSortedProducts.length} products
             </p>
             <div className="flex items-center">
-              <label htmlFor="sort" className="text-sm text-gray-600 mr-2">Sort by:</label>
+              <label htmlFor="sort" className="text-sm text-gray-600 mr-2">
+                Sort by:
+              </label>
               <div className="relative">
                 <select
                   id="sort"
@@ -136,7 +152,10 @@ const ProductsPage = () => {
                   <option value="name-desc">Name: Z to A</option>
                   <option value="rating-desc">Highest Rated</option>
                 </select>
-                <ChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
+                <ChevronDown
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                  size={16}
+                />
               </div>
             </div>
           </div>
@@ -150,15 +169,18 @@ const ProductsPage = () => {
             </div>
           ) : (
             <div className="text-center py-12">
-              <h3 className="text-lg font-medium text-gray-900">No products found</h3>
+              <h3 className="text-lg font-medium text-gray-900">
+                No products found
+              </h3>
               <p className="mt-2 text-sm text-gray-500">
-                Try adjusting your search or filter to find what you're looking for.
+                Try adjusting your search or filter to find what you're looking
+                for.
               </p>
               <button
                 onClick={() => {
-                  setSearchQuery('');
+                  setSearchQuery("");
                   setFilters({
-                    category: '',
+                    category: "",
                     priceRange: { min: 0, max: 100 },
                     rating: 0,
                   });
