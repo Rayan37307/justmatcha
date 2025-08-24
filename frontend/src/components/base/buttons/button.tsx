@@ -1,9 +1,8 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, DetailedHTMLProps, FC, ReactNode } from "react";
-import React, { isValidElement } from "react";
+import { isValidElement } from "react";
 import type { ButtonProps as AriaButtonProps } from "react-aria-components";
 import { Button as AriaButton, Link as AriaLink } from "react-aria-components";
 import { cx, sortCx } from "@/utils/cx";
-import { isReactComponent } from "@/utils/is-react-component";
 
 export const styles = sortCx({
     common: {
@@ -185,7 +184,7 @@ export const Button = ({
     const Component = href ? AriaLink : AriaButton;
 
     const isIcon = (IconLeading || IconTrailing) && !children;
-    const isLinkType = ["link-gray", "link-color", "link-destructive"].includes(color);
+    const isLinkType = ["link-gray", "link-color", "link-destructive"].includes(color as string);
 
     noTextPadding = isLinkType || noTextPadding;
 
@@ -230,7 +229,7 @@ export const Button = ({
         >
             {/* Leading icon */}
             {isValidElement(IconLeading) && IconLeading}
-            {isReactComponent(IconLeading) && <IconLeading data-icon="leading" className={styles.common.icon} />}
+            {typeof IconLeading === "function" && <IconLeading data-icon="leading" className={styles.common.icon} />}
 
             {loading && (
                 <svg
@@ -263,7 +262,7 @@ export const Button = ({
 
             {/* Trailing icon */}
             {isValidElement(IconTrailing) && IconTrailing}
-            {isReactComponent(IconTrailing) && <IconTrailing data-icon="trailing" className={styles.common.icon} />}
+            {typeof IconTrailing === "function" && <IconTrailing data-icon="trailing" className={styles.common.icon} />}
         </Component>
     );
 };

@@ -1,4 +1,4 @@
-import type { FC, RefAttributes } from "react";
+import type { FC, RefAttributes, ReactNode } from "react";
 import { DotsVertical } from "@untitledui/icons";
 import type {
     ButtonProps as AriaButtonProps,
@@ -19,7 +19,7 @@ import {
 } from "react-aria-components";
 import { cx } from "@/utils/cx";
 
-interface DropdownItemProps extends AriaMenuItemProps {
+interface DropdownItemProps extends Omit<AriaMenuItemProps, 'children'> {
     /** The label of the item to be displayed. */
     label?: string;
     /** An addon to be displayed on the right side of the item. */
@@ -28,6 +28,7 @@ interface DropdownItemProps extends AriaMenuItemProps {
     unstyled?: boolean;
     /** An icon to be displayed on the left side of the item. */
     icon?: FC<{ className?: string }>;
+    children?: ReactNode | ((values: any) => ReactNode);
 }
 
 const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }: DropdownItemProps) => {
@@ -38,15 +39,15 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
     return (
         <AriaMenuItem
             {...props}
-            className={(state) =>
+            className={(state: any) =>
                 cx(
                     "group block cursor-pointer px-1.5 py-px outline-hidden",
                     state.isDisabled && "cursor-not-allowed",
-                    typeof props.className === "function" ? props.className(state) : props.className,
+                    typeof (props as any).className === "function" ? (props as any).className(state) : (props as any).className,
                 )
             }
         >
-            {(state) => (
+            {(state: any) => (
                 <div
                     className={cx(
                         "relative flex items-center rounded-md px-2.5 py-2 outline-focus-ring transition duration-100 ease-linear",
@@ -69,7 +70,7 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
                             state.isFocused && "text-secondary_hover",
                         )}
                     >
-                        {label || (typeof children === "function" ? children(state) : children)}
+                        {label || (typeof children === "function" ? (children as (values: any) => ReactNode)(state) : children)}
                     </span>
 
                     {addon && (
@@ -88,7 +89,9 @@ const DropdownItem = ({ label, children, addon, icon: Icon, unstyled, ...props }
     );
 };
 
-interface DropdownMenuProps<T extends object> extends AriaMenuProps<T> {}
+interface DropdownMenuProps<T extends object> extends AriaMenuProps<T> {
+    className?: string | ((values: any) => string);
+}
 
 const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
     return (
@@ -96,21 +99,24 @@ const DropdownMenu = <T extends object>(props: DropdownMenuProps<T>) => {
             disallowEmptySelection
             selectionMode="single"
             {...props}
-            className={(state) =>
+            className={(state: any) =>
                 cx("h-min overflow-y-auto py-1 outline-hidden select-none", typeof props.className === "function" ? props.className(state) : props.className)
             }
         />
     );
 };
 
-interface DropdownPopoverProps extends AriaPopoverProps {}
+interface DropdownPopoverProps extends AriaPopoverProps {
+    className?: string | ((values: any) => string);
+    children?: ReactNode;
+}
 
 const DropdownPopover = (props: DropdownPopoverProps) => {
     return (
         <AriaPopover
             placement="bottom right"
             {...props}
-            className={(state) =>
+            className={(state: any) =>
                 cx(
                     "w-62 overflow-auto rounded-lg bg-primary shadow-lg ring-1 ring-secondary_alt will-change-transform",
                     state.isEntering &&
@@ -140,7 +146,7 @@ const DropdownDotsButton = (props: AriaButtonProps & RefAttributes<HTMLButtonEle
                     "cursor-pointer rounded-md text-fg-quaternary outline-focus-ring transition duration-100 ease-linear",
                     (state.isPressed || state.isHovered) && "text-fg-quaternary_hover",
                     (state.isPressed || state.isFocusVisible) && "outline-2 outline-offset-2",
-                    typeof props.className === "function" ? props.className(state) : props.className,
+                    typeof (props as any).className === "function" ? (props as any).className(state) : (props as any).className,
                 )
             }
         >

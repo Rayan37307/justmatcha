@@ -1,3 +1,4 @@
+// Util for merging tailwind classes
 import { extendTailwindMerge } from "tailwind-merge";
 
 const twMerge = extendTailwindMerge({

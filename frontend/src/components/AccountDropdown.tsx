@@ -1,10 +1,6 @@
 import {
   ChevronDown,
-  Container,
-  HelpCircle,
-  LayersTwo01,
   LogOut01,
-  Settings01,
   User01,
 } from "@untitledui/icons";
 import { Button } from "./base/buttons/button";

@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, Heart, Menu, X, User2 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import useWishlistStore from "../store/useWishlistStore";
+import { ShoppingCart, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
 import useAuthStore from "../store/useAuthStore";
 import useCartStore from "../store/useCartStore";
 import { AccountDropdown } from "./AccountDropdown";
@@ -9,25 +8,14 @@ import { AccountDropdown } from "./AccountDropdown";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const menuRef = useRef(null);
-  const { isAuthenticated, logout } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   const { items: cartItems } = useCartStore();
-  const { items: wishlistItems } = useWishlistStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
