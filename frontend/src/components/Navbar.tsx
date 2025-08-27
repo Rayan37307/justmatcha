@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import useAuthStore from "../store/useAuthStore";
@@ -10,7 +10,6 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isAuthenticated } = useAuthStore();
   const { items: cartItems } = useCartStore();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);

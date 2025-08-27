@@ -1,11 +1,9 @@
 import {
-  ChevronDown,
   LogOut01,
   LogIn01,
   LogIn02,
   User01,
 } from "@untitledui/icons";
-import { Button } from "./base/buttons/button";
 import { Dropdown } from "./base/dropdown/dropdown";
 import useAuthStore from "../store/useAuthStore";
 import { Link, useNavigate } from "react-router-dom";
