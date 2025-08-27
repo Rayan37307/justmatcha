@@ -113,7 +113,7 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex items-center space-x-2">
-            {isAuthenticated && (
+            { (
               <Link to="/cart" className="relative text-green-900 p-2">
                 <ShoppingCart className="w-5 h-5" />
                 {cartItemCount > 0 && (
@@ -129,14 +129,9 @@ const Navbar = () => {
                 <AccountDropdown />
               </div>
             ) : (
-              <>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="bg-green-900 cursor-pointer text-white px-3 py-1 rounded hover:bg-green-800"
-                >
-                  Login
-                </button>
-              </>
+              <div className="max-md:hidden">
+               <AccountDropdown />
+              </div>
             )}
 
             {/* Mobile Menu Toggle */}
@@ -179,17 +174,7 @@ const Navbar = () => {
                 <AccountDropdown />
               </>
             ) : (
-              <>
-                <button
-                  onClick={() => {
-                    navigate("/login");
-                    setIsMenuOpen(false);
-                  }}
-                  className="block cursor-pointer w-full text-left px-3 py-2 text-green-900 hover:bg-green-50"
-                >
-                  Login
-                </button>
-              </>
+              <AccountDropdown />
             )}
           </div>
         </div>

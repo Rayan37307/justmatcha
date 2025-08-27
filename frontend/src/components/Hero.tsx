@@ -17,20 +17,33 @@ const Hero: React.FC = () => {
             Fuel your day with organic Japanese matcha – smooth, steady energy
             without the crash.
           </p>
-          <div className="flex justify-center md:justify-start space-x-4">
+          <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4">
             <Link
               to="/products"
-              className="bg-green-800 text-white font-bold py-4 px-8 rounded-lg hover:bg-green-900 transition duration-300 shadow-lg"
+              className="bg-green-800 text-white font-bold 
+               text-sm sm:text-base md:text-lg lg:text-xl 
+               px-4 sm:px-6 md:px-8 lg:px-10 
+               py-2 sm:py-3 md:py-4 lg:py-5 
+               rounded-lg hover:bg-green-900 
+               transition duration-300 shadow-lg"
             >
               Shop Now
             </Link>
+
             <Link
               to="/about"
-              className="bg-transparent text-green-800 font-bold py-4 px-8 rounded-lg border-2 border-green-800 hover:bg-green-800 hover:text-white transition duration-300"
+              className="bg-transparent text-green-800 font-bold 
+               text-sm sm:text-base md:text-lg lg:text-xl 
+               px-4 sm:px-6 md:px-8 lg:px-10 
+               py-2 sm:py-3 md:py-4 lg:py-5 
+               rounded-lg border-2 border-green-800 
+               hover:bg-green-800 hover:text-white 
+               transition duration-300"
             >
               Learn More
             </Link>
           </div>
+
         </div>
 
         {/* Right Side: Image */}
