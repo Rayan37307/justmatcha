@@ -15,9 +15,9 @@ export const AccountDropdown = () => {
   const navigate = useNavigate();
   return (
     <Dropdown.Root>
-      <Button className="group" color="secondary" iconTrailing={ChevronDown}>
+      <button className="text-green-800 flex items-center justify-center cursor-pointer">
         <User01 />
-      </Button>
+      </button>
 
       <Dropdown.Popover>
         <Dropdown.Menu>

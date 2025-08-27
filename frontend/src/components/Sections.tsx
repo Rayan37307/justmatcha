@@ -19,7 +19,7 @@ const Sections = () => {
             whole leaf, you get more nutrients, more antioxidants, and
             longer-lasting energy than coffee or regular green tea.
           </p>
-          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-sm mt-6 transition-colors">
+          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-lg mt-6 transition-colors">
             Learn More
           </button>
         </div>
@@ -43,7 +43,7 @@ const Sections = () => {
             boost thanks to its unique balance of caffeine and L-theanine –
             making it the smarter way to power through your day.
           </p>
-          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-sm mt-6 transition-colors">
+          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-lg mt-6 transition-colors">
             FAQ
           </button>
         </div>
@@ -67,7 +67,7 @@ const Sections = () => {
             directly from sustainable Japanese farms. No additives, no
             compromise – just pure, vibrant green goodness.
           </p>
-          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-sm mt-6 transition-colors">
+          <button className="bg-green-900 hover:bg-green-800 text-white px-10 py-4 rounded-lg mt-6 transition-colors">
             Shop Now
           </button>
         </div>

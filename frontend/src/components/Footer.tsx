@@ -1,3 +1,4 @@
+import { Facebook, Instagram, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -38,10 +39,17 @@ const Footer = () => {
 </svg>
               <span className="text-2xl font-bold text-white">JustMatcha</span>
             </a>
+                      <div className="flex justify-start space-x-4 items-center ">
+            <Facebook />
+            <Instagram />
+            <Twitter />
+
+          </div>
             <p className="text-white font-normal">
               Your natural candle made for your home and for your wellness.
             </p>
           </div>
+
 
           {/* Right: Links */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 sm:gap-20">
